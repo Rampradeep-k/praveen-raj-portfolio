@@ -25,7 +25,7 @@ jobs:
       - name: Deploy to GitHub Pages
         run: |
           npm install
-          git config --global user.email "github-actions@github.com"
-          git config --global user.name "github-actions"
+          git config --global user.email "rampradeepsamy@gmail.com"
+          git config --global user.name "Rampradeep-K"
           npm run build
           npx gh-pages -d dist -b gh-pages
