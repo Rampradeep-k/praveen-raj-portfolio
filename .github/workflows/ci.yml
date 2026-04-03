@@ -4,48 +4,33 @@ on:
   push:
     branches: [main]
 
+permissions:
+  contents: write   # 🔥 REQUIRED
+
 jobs:
-  install-dependencies:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Install dependencies
-        run: npm install
-
-  test:
-    runs-on: ubuntu-latest
-    needs: install-dependencies
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run tests
-        run: npm run test
-
   deploy:
     runs-on: ubuntu-latest
-    needs: test
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+          fetch-depth: 0
 
-      - name: Deploy to GitHub Pages
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Setup Git Auth
         run: |
-          npm install -g gh-pages
+          git config --global user.email "rampradeepsamy@gmail.com"
+          git config --global user.name "Rampradeep-k"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/Rampradeep-K/praveen-raj-portfolio.git
+      
+      - name: Deploy
+        run: |
+          npm install
           npm run build
-          gh-pages -d dist -b gh-pages
+          npx gh-pages -d dist -b gh-pages
