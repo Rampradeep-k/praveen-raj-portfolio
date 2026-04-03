@@ -1,0 +1,36 @@
+name: CI-CD PIPELINE
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write   # 🔥 REQUIRED
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Setup Git Auth
+        run: |
+          git config --global user.email "rampradeepsamy@gmail.com"
+          git config --global user.name "Rampradeep-k"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/Rampradeep-K/praveen-raj-portfolio.git
+      
+      - name: Deploy
+        run: |
+          npm install
+          npm run build
+          npx gh-pages -d dist -b gh-pages
