@@ -46,6 +46,7 @@ jobs:
 
       - name: Deploy to GitHub Pages
         run: |
+          npm install
           npm install -g gh-pages
           npm run build
           gh-pages -d dist -b gh-pages
