@@ -52,3 +52,4 @@ jobs:
           npm install -g gh-pages
           npm run build
           gh-pages -d dist -b gh-pages
+          npx gh-pages -d dist -b gh-pages -r https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/Rampradeep-K/praveen-raj-portfolio.git
