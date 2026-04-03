@@ -44,5 +44,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Deploy Application
-        run: echo "Deployed"
+      - name: Deploy to GitHub Pages
+        run: |
+          npm install -g gh-pages
+          npm run build
+          gh-pages -d dist -b gh-pages
